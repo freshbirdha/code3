@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+<!-- package标签,该标签配置控制器的包结构 name属性:自定义,必须保证唯一，与编码没有任何关系，用于区分package
+    extends属性:继承某个package,其中struts-default是struts2框架的核心
+    namespace属性:命名空间,默认为/(根目录)
+!-->
+    <!--设置struts2的主题样式-->
+    <constant name="struts.ui.theme" value="simple"/>
+
+    <!-- 及时编译 -->
+    <constant name="struts.configuration.xml.reload" value="true" />
+
+    <!-- 请求参数的编码方式,解决中文乱码 -->
+    <constant name="struts.i18n.encoding" value="utf-8" />
+
+    <!-- 让struts2支持动态方法调用 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+
+    <package name="default" extends="struts-default" namespace="/">
+        <!-- 定义全局默认拦截器,设置白名单-->
+       <!-- <global-allowed-methods>regex:.*</global-allowed-methods>-->
+
+        <!--action标签:配置访问请求
+            name属性:访问路径
+            class属性:该访问路径要执行的控制器
+            result标签:配置返回的页面
+            name属性:属性值可以自定义，必须与控制器返回的逻辑字符串一致!-->
+
+        <action name="hello" class="control.HelloAction">
+            <result name="success">/show.jsp</result>
+        </action>
+
+        <action name="login" class="control.LoginAction">
+            <!-- 若要实现重定向的跳转(即跳转地址发生变化地址),则需要把type="redirect",否则默认是以转发方式跳转-->
+             <result name="success" type="redirect">/success.jsp</result>
+             <result name="error">/login.jsp</result>
+            <result name="input">/login.jsp</result>
+        </action>
+        <!--method属性指定控制器的方法名称-->
+        <action name="findUserList" class="control.UserAction">
+            <!--name 默认属性值是success 可以不写-->
+            <result name="success">/userList.jsp</result>
+        </action>
+
+    </package>
+
+    <package name="date" extends="default">
+        <!--action name="getDate"要和<form action="/getData.action" 一致-->
+        <action name="getDate" class="control.DateAction" method="test">
+            <result>/success.jsp</result>
+            <result name="input">/date.jsp</result>
+        </action>
+    </package>
+
+</struts>
